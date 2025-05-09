@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <title>Document</title>
+    <style>
+        *{margin:0; padding: 0;}
+        #container{width:1200px; margin:30px auto; text-align: center;}
+        h2{font-size: 40px; margin-bottom:40px;}
+        table{width:1200px; margin:0 auto;}
+        table,th,td{border:1px solid black; border-collapse: collapse;}
+        th{height: 60px; background: #eee;}
+        td{height:50px;}
+        button{width:100px; height:35px;}
+        input:focus {outline: none;} /* 기본 focus형태를 제거 */
+        input:focus { border:2px solid red;}
+        input{margin-bottom: 5px;}
+        #input{margin-bottom: 30px;}
+        #input div{font-size: 30px; margin-bottom: 10px;}
+        #input input{width:500px; height:32px; padding-left: 20px;}
+    </style>
+   
+</head>
+<body>
+    <div id="container">
+        <h2>게시판</h2>
+        <div id="input">
+            <div>글을 입력하세요.</div>
+            <input type="text" name="title" id="title" placeholder="제목을 입력하세요"><br>
+            <input type="text" name="id" id="id" placeholder="작성자를 입력하세요"><br>
+            <button type="button" id="save">게시글 저장</button>
+        </div>
+
+        <table>
+            <colgroup>
+              <col width="10%">
+              <col width="*">
+              <col width="12%">
+              <col width="12%">
+              <col width="12%">
+              <col width="20%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                    <th>기타</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <tr id="1">
+                    <td>1</td>
+                    <td>이벤트신청1</td>
+                    <td>홍길동</td>
+                    <td>2025-04-20</td>
+                    <td>1</td>
+                    <td>
+                        <button type="button" class="uBtn">수정</button>
+                        <button type="button" class="dBtn">삭제</button>
+                    </td>
+                <tr id="2">
+                    <td>2</td>
+                    <td>강의신청2</td>
+                    <td>유관순</td>
+                    <td>2025-04-21</td>
+                    <td>10</td>
+                    <td>
+                        <button type="button" class="uBtn">수정</button>
+                        <button type="button" class="dBtn">삭제</button>
+                    </td>
+                <tr id="3">
+                    <td>3</td>
+                    <td>여행신청</td>
+                    <td>이순신</td>
+                    <td>2025-04-23</td>
+                    <td>100</td>
+                    <td>
+                        <button type="button" class="uBtn">수정</button>
+                        <button type="button" class="dBtn">삭제</button>
+                    </td>
+                    <tr id="6">
+                        <td colspan="6"> 사이공간</td>
+                    </tr>
+                <tr id="4">
+                    <td>4</td>
+                    <td>식사신청</td>
+                    <td>강감찬</td>
+                    <td>2025-04-24</td>
+                    <td>1000</td>
+                    <td>
+                        <button type="button" class="uBtn">수정</button>
+                        <button type="button" class="dBtn">삭제</button>
+                    </td>
+                <tr id="5">
+                    <td>5</td>
+                    <td>이벤트신청2</td>
+                    <td>김유신</td>
+                    <td>2025-04-25</td>
+                    <td>1000</td>
+                    <td>
+                        <button type="button" class="uBtn">수정</button>
+                        <button type="button" class="dBtn">삭제</button>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <a href="http://www.naver.com"></a>
+    </div>
+
+
+    
+</body>
+</html>
