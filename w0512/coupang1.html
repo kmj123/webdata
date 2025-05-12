@@ -1,0 +1,34 @@
+<html>
+ <head>
+ </head>
+ <body>
+  <script src="/YIEnD9uBMl2Tq1ut0pzy/zmJEfpc7fEif/B3Y9b00D/Ak/VTaDxAPgk?v=2f0ecc7e-f3d2-a857-2067-4f252c80173b&amp;t=271518733">
+  </script>
+  <script>
+   (function() {
+             var chlgeId = '';
+             var scripts = document.getElementsByTagName('script');
+             for (var i = 0; i < scripts.length; i++) {
+                 if (scripts[i].src && scripts[i].src.match(/t=([^&#]*)/)) {
+                     chlgeId = scripts[i].src.match(/t=([^&#]*)/)[1];
+                 }
+             }
+             var proxied = window.XMLHttpRequest.prototype.send;
+             window.XMLHttpRequest.prototype.send = function() {
+                 var pointer = this
+                 var intervalId = window.setInterval(function() {
+                     if (pointer.readyState === 4 && pointer.responseURL && pointer.responseURL.indexOf('t=' + chlgeId) > -1) {
+                         location.reload(true);
+                         clearInterval(intervalId);
+                     }
+                 }, 1);
+                 return proxied.apply(this, [].slice.call(arguments));
+             };
+         })();
+  </script>
+  <div style="width: 50px; height: 50px; background-color: rgb(255, 255, 255); opacity: 0; position: absolute; overflow: scroll; bottom: 0px; left: 0px;">
+   <div style="width: 100px; height: 100px;">
+   </div>
+  </div>
+ </body>
+</html>
