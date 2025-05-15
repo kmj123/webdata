@@ -18,9 +18,10 @@ options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
 # 브라우저 실행
-browser = webdriver.Chrome(options=options) # 다른위치에 있는경우 위치점 찍어야 실행가능 "c:/down/chromedriver"
+browser = webdriver.Chrome(options=options)
 browser.maximize_window() # 창 최대화
 
+## 메일관련 import
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -31,18 +32,21 @@ smtpName = "smtp.naver.com"
 smtpPort = 587
 
 # 중요정보
-recvEmail = "onulee@naver.com"  # 받는사람 주소
+recvEmail = "kkk990108@naver.com"  # 받는사람 주소
 password = "R12G34FT6FTH"       ### 네이버 로그인 비밀번호를 입력해도 되지만, 파일이 노출되는 경우 개인정보 침해 우려 ###
 
+### 파일첨부 부분 ###
 ## MIME 객체화
 msg = MIMEMultipart('alternative')
 # 내용부분
-text = "네이버 랭킹뉴스보냄"
-part2 = MIMEText(text)
+text = """<h2> 랭킹뉴스 기사모음</h2>
+<img src='https://mail.naver.com/read/image/original/?mimeSN=1747271993.181274.172.46848&offset=1588&size=4808542&u=kkk990108&cid=7577d4c71e5c52f91a7cbbc4eea2a32@cweb011.nm&contentType=image/jpeg&filename=1747271991065.jpeg&org=1'>
+"""
+part2 = MIMEText(text,"html")
 msg.attach(part2)
 msg['From'] = "kkk990108@naver.com"
 msg['To'] = recvEmail
-msg['Subject'] = "네이버 12개 랭킹 1위 뉴스를 보내드립ㄴ디ㅏ."
+msg['Subject'] = "언론사별 랭킹뉴스를 보냅니다."
 
 ## 파일첨부
 part = MIMEBase('application',"octet-stream")
@@ -62,48 +66,50 @@ s = smtplib.SMTP("smtp.naver.com",587)
 s.starttls()
 s.login("kkk990108",password)
 ### 보내는 주소가 네이버메일이 아니면 에러처리 
-recvMails = ['kkk990108@naver.com','onulee@naver.com']
-for recvMail in recvMails:
-    s.sendmail("kkk990108@naver.com",recvEmail,msg.as_string())
+recvMails = 'kkk990108@naver.com'
+s.sendmail("kkk990108@naver.com",recvEmail,msg.as_string())
 s.quit() 
 
-#################################################
-#### 뉴스 csv 생성
 
-## 뉴스접속
+## csv 파일 생성
+f = open("w0515/news.csv","w",encoding="utf-8-sig",newline="")
+writer = csv.writer(f)
+
+
+title = ['언론사','기사제목']
+writer.writerow(title)      ## csv 리스트 저장
+
+### 1. 네이버 접속
 url = "https://news.naver.com/main/ranking/popularDay.naver"
 browser.get(url)
 
+## html 파싱
 soup = BeautifulSoup(browser.page_source,"lxml")
-data = soup.find("div", {"class":"_officeCard _officeCard0"})
-data2 = data.find_all("div", {"class":"rankingnews_box"})
 
-ff= open("w0514/news.csv","w",encoding="utf-8-sig",newline="")
-writer = csv.writer(ff)
-
-for news in data2:
-    list = []
-    # 신문사
-    paper = news.find("strong",{"class":"rankingnews_name"}).get_text().strip()
-    list.append(paper)
-    # 제목
-    title = news.find("a",{"class":"list_title nclicks('RBP.rnknws')"}).get_text().strip()
-    list.append(title)
-
-    writer.writerow(list)
-print(list)
+## 언론사별 랭킹 뉴스 전체
+data = soup.find("div",{"class":"rankingnews_box_wrap"})
+## 랭킹뉴스 리스트  - 12개
+rNews = data.find_all("div",{"class":"rankingnews_box"})
 
 
-ff.close()
-input("종료시 엔터")
+for r in rNews:
+    ## 언론사 이름
+    newsName = r.find("strong",{"class":"rankingnews_name"}).get_text().strip()
+    print(newsName)
+    newscontent = r.find("a",{"class":"list_title"}).get_text().strip()
+    print(newscontent)
+    
+    ## news_list = [] 
+    # 리스트를 안만들고 바로 적어도됨
+    writer.writerow([newsName,newscontent])
 
+# 파일생성완료
+f.close()
 
-### 퀴즈 ###
-# news.csv
-# # 신문사 기사
-# 뉴시스,'전원일기 일용이' 박은수 수천만원 사기 혐의로 피소
-# 한국경제,'지금 계약해도
-# 파일첨부 메일로 발송
-# 제목 : 네이버 랭킹뉴스 보냄.
-# 내용 : 네이버 12개 랭킹 1위 뉴스를 보내드립니다.
-# 보내는 주소 : onulee@naver.com
+# 파일 생성하는 동안 잠시 대기
+time.sleep(2)
+
+print("메일발송완료")
+
+input("엔터시 종료")
+
